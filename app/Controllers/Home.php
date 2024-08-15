@@ -2,10 +2,27 @@
 
 namespace App\Controllers;
 
+use App\Models\AdminModel;
+
 class Home extends BaseController
 {
-    public function index(): string
+    public function __construct()
     {
-        return view('welcome_message');
+        if (!session()->get('logged_in')) {
+            return redirect()->to('/login')->send();
+        }
+    }
+
+    public function index()
+    {
+        if (!session()->get('logged_in')) 
+        {
+            return redirect()->to('/login')->send();
+        } else {
+            $adminModel = new AdminModel();
+            $data['users'] = $adminModel->findAll();
+    
+            return view('dashboard', $data);
+        }
     }
 }
