@@ -34,6 +34,8 @@ class Login extends Controller
             {
                 $session->set([
                     'username' => $admin['username'],
+                    'role' => $admin['role'],
+                    'region' => $admin['region'],
                     'logged_in' => true,
                 ]);
                 $session->setFlashdata('success', 'Login Success.');

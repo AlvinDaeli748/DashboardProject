@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateAdminsTable extends Migration
+class CreatePenjualanTable extends Migration
 {
     public function up()
     {
@@ -15,33 +15,32 @@ class CreateAdminsTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'username' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '100',
-            ],
-            'password' => [
+            'provinsi' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'role' => [
+            'jenis' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'region' => [
-                'type' => 'VARCHAR',
+            'total_penjualan' => [
+                'type' => 'INT',
                 'constraint' => '255',
+            ],
+            'tgl_penjualan' => [
+                'type' => 'DATETIME',
+                'null' => true,
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->createTable('users');
+        $this->forge->createTable('penjualan');
 
-        // Menjalankan Seed setelah Migration
         $seeder = \Config\Database::seeder();
-        $seeder->call('AdminSeeder');
+        $seeder->call('PenjualanSeeder');
     }
 
     public function down()
     {
-        $this->forge->dropTable('users');
+        $this->forge->dropTable('penjualan');
     }
 }
