@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard <?php echo session()->get('region') ?></title>
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
@@ -29,11 +29,18 @@
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1 class="mt-5">Welcome <?php echo session()->get('username') ?></h1>
+<?= view('layout/navbar') ?>
+    &nbsp;
+    <div class="container">
     
-    <h1 class="mt-5">Summary Penjualan <?php echo session()->get('region') ?></h1>
+    <h3 class="mt-5">Summary Penjualan <?php echo session()->get('region') ?></h3>
+    <?php if (session()->getFlashdata('success')): ?>
+        <div id="loginAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        Login berhasil!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="row mt-4">
         <div class="col-md-4">
             <div class="scorecard bg-primary">
@@ -79,18 +86,7 @@
         </div>
     </div>
 
-    <?php if (session()->getFlashdata('success')): ?>
-    <div class="alert alert-success alert-dismissible fade show alert-position" role="alert">
-        <?= session()->getFlashdata('success') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<?php endif; ?>
-
-    <a href="<?= base_url('/logout') ?>" class="btn btn-danger mt-3">Logout</a>
-</div>
-
-<div class="container">
-    <h1 class="mt-5">Chart Penjualan <?php echo session()->get('region') ?></h1>
+    <h3 class="mt-5">Chart Penjualan <?php echo session()->get('region') ?></h3>
 
     <canvas id="chartPenjualan"></canvas>
 
@@ -161,7 +157,7 @@
     </script>
 
 
-    <h1 class="mt-5">Tabel Detail Penjualan <?php echo session()->get('region') ?></h1>
+    <h3 class="mt-5">Tabel Detail Penjualan <?php echo session()->get('region') ?></h3>
     <a href="<?= site_url('export/downloadExcel') ?>" class="btn btn-success mb-3">Download sebagai Excel</a>
     <table class="table table-striped">
         <thead>
@@ -198,6 +194,19 @@
 
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var loginAlert = document.getElementById('loginAlert');
+
+        setTimeout(function () {
+        var alert = new bootstrap.Alert(loginAlert);
+        alert.close();
+        }, 5000);
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>
 </body>
 </html>

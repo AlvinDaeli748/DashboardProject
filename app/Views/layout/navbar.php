@@ -1,20 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="mx-auto order-0">
-            <a class="navbar-brand mx-auto" href="#">Dashboard</a>
-        </div>
-        <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <span class="nav-link">Hello, <?= session()->get('username'); ?>!</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= site_url('logout'); ?>">Logout</a>
-                </li>
-            </ul>
-        </div>
+<nav class="navbar bg-body-tertiary fixed-top">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu Dashboard</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Summary</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Stock</a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="mx-auto">
+      <strong><span class="navbar-text">Dashboard <?php echo session()->get('region') ?></span></strong>
+    </div>
+
+    <div class="justify-content-end">
+      <span class="nav-item">Welcome <?php echo session()->get('username') ?></span>
+      <a class="btn btn-danger" href="<?= base_url('/logout') ?>" role="button" aria-controls="offcanvasExample">Logout</a>
+    </div>
+    
+  </div>
 </nav>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login to Dashboard</title>
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <style>
         body {
@@ -30,7 +30,7 @@
 <body>
 
 <div class="login-form">
-    <h2 class="text-center">Login</h2>
+    <h2 class="text-center">Login Dashboard</h2>
     <form action="<?= base_url('/login/auth') ?>" method="post">
         <div class="form-group">
             <label for="username">Username</label>
@@ -40,7 +40,7 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Login</button>
+        <button type="submit" class="btn btn-primary mt-3 ">Login</button>
     </form>
 </div>
 
