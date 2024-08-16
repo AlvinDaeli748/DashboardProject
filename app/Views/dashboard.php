@@ -7,13 +7,58 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <style>
+        .scorecard {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .scorecard h2 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .scorecard p {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+        .bg-primary { background-color: #007bff; }
+        .bg-success { background-color: #28a745; }
+        .bg-warning { background-color: #ffc107; }
+    </style>
 </head>
 <body>
 
 <div class="container">
     <h1 class="mt-5">Welcome <?php echo session()->get('username') ?></h1>
 
-    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="scorecard bg-primary">
+                <p class="col-md-2">Total</p>
+                <h2 class="col-md-2"><?= $outletSales[0]['totalPenjualan'] ?></h2>
+                <p class="col-md-2">Terendah</p>
+                <h2 class="col-md-2"><?= $low ?></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="scorecard bg-success">
+                <p class="col-md-2">Outlet</p>
+                <h2 class="col-md-2"><?= $outlet[0]['totalPenjualan'] ?></h2>
+                <p class="col-md-2">Terendah</p>
+                <h2 class="col-md-2"><?= $lowOutlet ?></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="scorecard bg-warning">
+                <p class="col-md-2">Sales</p>
+                <h2 class="col-md-2"><?= $sales[0]['totalPenjualan'] ?></h2>
+                <p class="col-md-2">Terendah</p>
+                <h2 class="col-md-2"><?= $lowSales ?></h2>
+            </div>
+        </div>
+    </div>
 
     <?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success alert-dismissible fade show alert-position" role="alert">
@@ -82,9 +127,9 @@
             }
         });
 
-        document.getElementById('chartPenjualan').addEventListener("mouseover", function() {
-            var checkJune = chartPenjualan.data.datasets[0].hidden; 
-            var checkJuly = chartPenjualan.data.datasets[1].hidden;
+        document.getElementById('chartPenjualan').addEventListener("click", function() {
+            var checkJune = chartPenjualan.data.datasets[0]; 
+            var checkJuly = chartPenjualan.data.datasets[1];
             console.log(checkJune);
             console.log(checkJuly);
             if(checkJune && checkJuly){
