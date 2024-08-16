@@ -32,30 +32,49 @@
 
 <div class="container">
     <h1 class="mt-5">Welcome <?php echo session()->get('username') ?></h1>
-
+    
+    <h1 class="mt-5">Summary Penjualan <?php echo session()->get('region') ?></h1>
     <div class="row mt-4">
         <div class="col-md-4">
             <div class="scorecard bg-primary">
-                <p class="col-md-2">Total</p>
-                <h2 class="col-md-2"><?= $outletSales[0]['totalPenjualan'] ?></h2>
-                <p class="col-md-2">Terendah</p>
-                <h2 class="col-md-2"><?= $low ?></h2>
+                <div class="row">
+                    <div class="col">
+                        <p>Total</p> 
+                        <h2><?= $outletSales[0]['totalPenjualan'] ?></h2> 
+                    </div>
+                    <div class="col">
+                        <p>Terendah</p>
+                        <h2><?= $low ?></h2>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="scorecard bg-success">
-                <p class="col-md-2">Outlet</p>
-                <h2 class="col-md-2"><?= $outlet[0]['totalPenjualan'] ?></h2>
-                <p class="col-md-2">Terendah</p>
-                <h2 class="col-md-2"><?= $lowOutlet ?></h2>
+            <div class="row">
+                    <div class="col">
+                        <p>Outlet</p>
+                        <h2><?= $outlet[0]['totalPenjualan'] ?></h2> 
+                    </div>
+                    <div class="col">
+                        <p>Terendah</p>
+                        <h2><?= $lowOutlet ?></h2>
+                    </div>
+                </div>            
             </div>
         </div>
         <div class="col-md-4">
             <div class="scorecard bg-warning">
-                <p class="col-md-2">Sales</p>
-                <h2 class="col-md-2"><?= $sales[0]['totalPenjualan'] ?></h2>
-                <p class="col-md-2">Terendah</p>
-                <h2 class="col-md-2"><?= $lowSales ?></h2>
+            <div class="row">
+                    <div class="col">
+                        <p>Sales</p>
+                        <h2><?= $sales[0]['totalPenjualan'] ?></h2> 
+                    </div>
+                    <div class="col">
+                        <p>Terendah</p>
+                        <h2><?= $lowSales ?></h2>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -71,7 +90,7 @@
 </div>
 
 <div class="container">
-    <h1 class="mt-5">Dashboard <?php echo session()->get('region') ?></h1>
+    <h1 class="mt-5">Chart Penjualan <?php echo session()->get('region') ?></h1>
 
     <canvas id="chartPenjualan"></canvas>
 
@@ -141,6 +160,8 @@
 
     </script>
 
+
+    <h1 class="mt-5">Tabel Detail Penjualan <?php echo session()->get('region') ?></h1>
     <a href="<?= site_url('export/downloadExcel') ?>" class="btn btn-success mb-3">Download sebagai Excel</a>
     <table class="table table-striped">
         <thead>
@@ -170,7 +191,11 @@
             <?php endif; ?>
         </tbody>
     </table>
-    <?= $pager->links(); ?>
+
+    <div class="d-flex justify-content-center">
+        <?= $pager->links('group', 'bootstrap_pagination'); ?>
+    </div>    
+
 </div>
 
 <script src="<?= base_url('assets/js/bootstrap.bundle.min.js') ?>"></script>

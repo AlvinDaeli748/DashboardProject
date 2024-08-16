@@ -15,12 +15,14 @@ class Home extends BaseController
             $penjualanModel = new PenjualanModel();
 
             $db = \Config\Database::connect();
+
+            $perPage = 10;
             
             if(session()->get('role') == 'superuser')
             {
                 $data['penjualan'] = $penjualanModel
                                     ->groupBy('DATE(tgl_penjualan)')
-                                    ->paginate(25);
+                                    ->paginate($perPage, 'group');
 
                 $chart = $penjualanModel->select('DATE(tgl_penjualan) as tglPenjualan, total_penjualan')
                                     ->groupBy('DATE(tgl_penjualan)')
@@ -38,7 +40,7 @@ class Home extends BaseController
                 $data['penjualan'] = $penjualanModel
                                 ->where('provinsi', $role)
                                 ->groupBy('DATE(tgl_penjualan)')
-                                ->paginate(25);
+                                ->paginate($perPage, 'group');
 
                 $chart = $penjualanModel->select('DATE(tgl_penjualan) as tglPenjualan, total_penjualan')
                     ->where('provinsi', $role)
