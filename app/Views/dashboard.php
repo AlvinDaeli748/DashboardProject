@@ -34,6 +34,7 @@
     <div class="container">
     
     <h3 class="mt-5">Summary Penjualan <?php echo session()->get('region') ?></h3>
+    
     <?php if (session()->getFlashdata('success')): ?>
         <div id="loginAlert" class="alert alert-success alert-dismissible fade show" role="alert">
         Login berhasil!
@@ -47,7 +48,7 @@
                 <div class="row">
                     <div class="col">
                         <p>Total</p> 
-                        <h2><?= $outletSales[0]['totalPenjualan'] ?></h2> 
+                        <h2><?= $totalMainData[0]['totalPenjualan'] ?></h2> 
                     </div>
                     <div class="col">
                         <p>Terendah</p>
@@ -60,12 +61,12 @@
             <div class="scorecard bg-success">
             <div class="row">
                     <div class="col">
-                        <p>Outlet</p>
-                        <h2><?= $outlet[0]['totalPenjualan'] ?></h2> 
+                        <p><?= (current_url() == site_url('dashboard/stocks')) ? 'Kartu' : 'Outlet'; ?></p>
+                        <h2><?= $totalFirstData[0]['totalPenjualan'] ?></h2> 
                     </div>
                     <div class="col">
                         <p>Terendah</p>
-                        <h2><?= $lowOutlet ?></h2>
+                        <h2><?= $lowFirstData ?></h2>
                     </div>
                 </div>            
             </div>
@@ -74,12 +75,12 @@
             <div class="scorecard bg-warning">
             <div class="row">
                     <div class="col">
-                        <p>Sales</p>
-                        <h2><?= $sales[0]['totalPenjualan'] ?></h2> 
+                        <p><?= (current_url() == site_url('dashboard/stocks')) ? 'Voucher' : 'Sales'; ?></p>
+                        <h2><?= $totalSecondData[0]['totalPenjualan'] ?></h2> 
                     </div>
                     <div class="col">
                         <p>Terendah</p>
-                        <h2><?= $lowSales ?></h2>
+                        <h2><?= $lowSecondData ?></h2>
                     </div>
                 </div>
             </div>
@@ -158,7 +159,7 @@
 
 
     <h3 class="mt-5">Tabel Detail Penjualan <?php echo session()->get('region') ?></h3>
-    <a href="<?= site_url('export/downloadExcel') ?>" class="btn btn-success mb-3">Download sebagai Excel</a>
+    <a href="<?= (current_url() == site_url('dashboard/stocks')) ? site_url('export/downloadExcel' . '?data=stocks') : site_url('export/downloadExcel');?>" class="btn btn-success mb-3">Download sebagai Excel</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -170,8 +171,8 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($penjualan) && is_array($penjualan)): ?>
-                <?php foreach ($penjualan as $sale): ?>
+            <?php if (!empty($mainData) && is_array($mainData)): ?>
+                <?php foreach ($mainData as $sale): ?>
                     <tr>
                         <td><?= esc($sale['tgl_penjualan']) ?></td>
                         <td><?= esc($sale['id']) ?></td>

@@ -11,16 +11,16 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Summary</a>
+            <a class="nav-link <?= (current_url() == site_url('/')) ? 'active' : ''; ?>" aria-current="page" href="<?= base_url('/') ?>">Summary</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Stock</a>
+            <a class="nav-link <?= (current_url() == site_url('dashboard/stocks')) ? 'active' : ''; ?>" href="<?= base_url('dashboard/stocks') ?>">Stock</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="mx-auto">
-      <strong><span class="navbar-text">Dashboard <?php echo session()->get('region') ?></span></strong>
+      <strong><span class="navbar-text ">Dashboard <?php echo session()->get('region') ?></span></strong>
     </div>
 
     <div class="justify-content-end">
