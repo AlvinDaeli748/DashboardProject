@@ -5,8 +5,7 @@
 3. Jalankan Composer : `composer install`
 4. Setup env : `cd env .env`
     * Uncomment `CI_ENVIRONMENT`
-5. Koneksi Database dengan MySQL dengan nama database  `dbproject`
-6. Pastikan ekstensi berikut aktif pada `php.ini` dengan cara uncomment ekstensi berikut.
+5. Pastikan ekstensi berikut aktif pada `php.ini` dengan cara uncomment ekstensi berikut. Jalankan `php --ini` untuk mengecek lokasi file `php.ini` yang digunakan.
     * intl
     * mbstring
     * mysqli
@@ -18,6 +17,8 @@
     * mysqlnd
     * extension_dir="ext"
         * Jalankan `php -m` untuk memastikan ekstensi aktif
+6. Tambah Database di Phpmyadmin dengan nama database `dbproject`
+    * Database berupa MySQL, dapat menggunakan XAMPP untuk akses ke `localhost/phpmyadmin`
 7. Export database dan seed data : `php spark migrate -all`
     * Jalankan `php spark db:seed PenjualanSeeder` untuk menambah dummy data sebanyak 500 data.
 8. Start Website : `php spark serve`
