@@ -26,6 +26,16 @@
         .bg-primary { background-color: #007bff; }
         .bg-success { background-color: #28a745; }
         .bg-warning { background-color: #ffc107; }
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+
+        .alert {
+            min-width: 250px;
+        }
     </style>
 </head>
 <body>
@@ -33,16 +43,18 @@
     &nbsp;
     <div class="container">
     
-    <h3 class="mt-5">Summary Penjualan <?php echo session()->get('region') ?></h3>
+    <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#scorecardCollapse" aria-expanded="true" aria-controls="scorecardCollapse">Summary Penjualan <?php echo session()->get('region') ?></h3>    
     
     <?php if (session()->getFlashdata('success')): ?>
-        <div id="loginAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-        Login berhasil!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="alert-container">
+        <div id="fadeAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> Login berhasil!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php endif; ?>
+    </div>
+<?php endif; ?>
 
-    <div class="row mt-4">
+    <div id="scorecardCollapse" class="row mt-4 collapse show">
         <div class="col-md-4">
             <div class="scorecard bg-primary">
                 <div class="row">
@@ -87,117 +99,107 @@
         </div>
     </div>
 
-    <h3 class="mt-5">Chart Penjualan <?php echo session()->get('region') ?></h3>
+    <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#chartCollapse" aria-expanded="true" aria-controls="chartCollapse">Chart Penjualan <?php echo session()->get('region') ?></h3>
 
-    <canvas id="chartPenjualan"></canvas>
+    <div id="chartCollapse" class="collapse show">
+        <canvas id="chartPenjualan"></canvas>
+            <script>
+            var ctx = document.getElementById('chartPenjualan').getContext('2d');
 
-    <div id="chartPenjualanPlaceholder" style="display: none; text-align: center; margin-top: 20px;">
-        <p>Pilih data untuk ditampilkan.</p>
-    </div>
-
-    <script>
-        var ctx = document.getElementById('chartPenjualan').getContext('2d');
-
-        var chartPenjualan = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?= $juneDates; ?>,
-                datasets: [
-                    {
-                        label: 'Penjualan Juni',
-                        data: <?= $juneSales; ?>,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        fill: false,
-                        hidden: false
-                    },
-                    {
-                        label: 'Penjualan Juli',
-                        data: <?= $julySales; ?>,
-                        borderColor: 'rgba(255, 159, 64, 1)',
-                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                        fill: false,
-                        hidden: true
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
+            var chartPenjualan = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: <?= $juneDates; ?>,
+                    datasets: [
+                        {
+                            label: 'Penjualan Juni',
+                            data: <?= $juneSales; ?>,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: false,
+                            hidden: false
                         },
-                        title: {
-                            display: true,
-                            text: 'Tanggal'
+                        {
+                            label: 'Penjualan Juli',
+                            data: <?= $julySales; ?>,
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            fill: false,
+                            hidden: true
                         }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Penjualan'
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tanggal'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Penjualan'
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
 
-        document.getElementById('chartPenjualan').addEventListener("click", function() {
-            var checkJune = chartPenjualan.data.datasets[0]; 
-            var checkJuly = chartPenjualan.data.datasets[1];
-            console.log(checkJune);
-            console.log(checkJuly);
-            if(checkJune && checkJuly){
-                document.getElementById('chartPenjualanPlaceholder').style.display = 'block';
-            } else {
-                document.getElementById('chartPenjualanPlaceholder').style.display = 'none';
-            }
-        });
+        </script>
+    </div>
 
-    </script>
+    
 
 
-    <h3 class="mt-5">Tabel Detail Penjualan <?php echo session()->get('region') ?></h3>
-    <a href="<?= (current_url() == site_url('dashboard/stocks')) ? site_url('export/downloadExcel' . '?data=stocks') : site_url('export/downloadExcel');?>" class="btn btn-success mb-3">Download sebagai Excel</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Tgl Penjualan</th>
-                <th>ID</th>
-                <th>Provinsi</th>
-                <th>Jenis</th>
-                <th>Total Penjualan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($mainData) && is_array($mainData)): ?>
-                <?php foreach ($mainData as $sale): ?>
-                    <tr>
-                        <td><?= esc($sale['tgl_penjualan']) ?></td>
-                        <td><?= esc($sale['id']) ?></td>
-                        <td><?= esc($sale['provinsi']) ?></td>
-                        <td><?= esc($sale['jenis']) ?></td>
-                        <td><?= esc($sale['total_penjualan']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+    <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#tableCollapse" aria-expanded="true" aria-controls="tableCollapse">Tabel Detail Penjualan <?php echo session()->get('region') ?></h3>
+    <div id="tableCollapse" class="collapse show">
+        <a href="<?= (current_url() == site_url('dashboard/stocks')) ? site_url('export/downloadExcel' . '?data=stocks') : site_url('export/downloadExcel');?>" class="btn btn-success mb-3">Download sebagai Excel</a>
+        <table id="pagination" class="table table-striped">
+            <thead>
                 <tr>
-                    <td colspan="4" class="text-center">Tidak ada data penjualan.</td>
+                    <th>Tgl Penjualan</th>
+                    <th>ID</th>
+                    <th>Provinsi</th>
+                    <th>Jenis</th>
+                    <th>Total Penjualan</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php if (!empty($mainData) && is_array($mainData)): ?>
+                    <?php foreach ($mainData as $sale): ?>
+                        <tr>
+                            <td><?= esc($sale['tgl_penjualan']) ?></td>
+                            <td><?= esc($sale['id']) ?></td>
+                            <td><?= esc($sale['provinsi']) ?></td>
+                            <td><?= esc($sale['jenis']) ?></td>
+                            <td><?= esc($sale['total_penjualan']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" class="text-center">Tidak ada data penjualan.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
-    <div class="d-flex justify-content-center">
-        <?= $pager->links('group', 'bootstrap_pagination'); ?>
-    </div>    
+        <div class="d-flex justify-content-center">
+            <?= $pager->links('group', 'bootstrap_pagination'); ?>
+        </div>
+    </div>
+        
 
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var loginAlert = document.getElementById('loginAlert');
+        var loginAlert = document.getElementById('fadeAlert');
 
         setTimeout(function () {
         var alert = new bootstrap.Alert(loginAlert);
