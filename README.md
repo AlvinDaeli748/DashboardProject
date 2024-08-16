@@ -12,7 +12,7 @@
         * `database.default.password =`         
         * `database.default.DBDriver = MySQLi`
    * Contoh tampilan .env :
-   * ![tampilan_env](https://github.com/user-attachments/assets/327641c6-c3bc-4d3e-8da7-b0a46692ef7e)
+   ![tampilan_env](https://github.com/user-attachments/assets/327641c6-c3bc-4d3e-8da7-b0a46692ef7e)
 5. Pastikan ekstensi berikut aktif pada `php.ini` dengan cara uncomment ekstensi berikut. Jalankan `php --ini` untuk mengecek lokasi file `php.ini` yang digunakan.
     * intl
     * mbstring
