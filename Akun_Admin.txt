@@ -1,0 +1,32 @@
+Username : admin
+Password : admin
+	
+Username : admin_aceh
+Password : admin_aceh
+	
+Username : admin_sumut
+Password : admin_sumut
+	
+Username : admin_sumbar
+Password : admin_sumbar
+	
+Username : admin_riau
+Password : admin_riau
+	
+Username : admin_kepri
+Password : admin_kepri
+	
+Username : admin_jambi
+Password : admin_jambi
+	
+Username : admin_bengkulu
+Password : admin_bengkulu
+	
+Username : admin_sumsel
+Password : admin_sumsel
+	
+Username : admin_babel
+1Username : admin_babel
+	
+Username : admin_lampung
+1Username : admin_lampung

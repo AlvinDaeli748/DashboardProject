@@ -23,3 +23,4 @@
     * Jalankan `php spark db:seed PenjualanSeeder` untuk menambah dummy data sebanyak 500 data.
 8. Start Website : `php spark serve`
     * Website dapat diakses dengan link `http://localhost:8080`
+9. Data untuk Login terdapat pada `Akun_Admin.txt`
