@@ -43,7 +43,7 @@
     &nbsp;
     <div class="container">
     
-    <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#scorecardCollapse" aria-expanded="true" aria-controls="scorecardCollapse">Summary Penjualan <?php echo session()->get('region') ?></h3>    
+    <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#scorecardCollapse" aria-expanded="true" aria-controls="scorecardCollapse"><?= (current_url() == site_url('dashboard/stocks')) ? 'Stok' : 'Summary'; ?> Penjualan <?php echo session()->get('region') ?></h3>    
     
     <?php if (session()->getFlashdata('success')): ?>
     <div class="alert-container">
@@ -56,7 +56,7 @@
 
     <div id="scorecardCollapse" class="row mt-4 collapse show">
         <div class="col-md-4">
-            <div class="scorecard bg-primary">
+            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-info' : 'bg-primary'; ?>">
                 <div class="row">
                     <div class="col">
                         <p>Total</p> 
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="scorecard bg-success">
+            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-warning' : 'bg-success'; ?>">
             <div class="row">
                     <div class="col">
                         <p><?= (current_url() == site_url('dashboard/stocks')) ? 'Kartu' : 'Outlet'; ?></p>
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="scorecard bg-warning">
+            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-success' : 'bg-warning'; ?>">
             <div class="row">
                     <div class="col">
                         <p><?= (current_url() == site_url('dashboard/stocks')) ? 'Voucher' : 'Sales'; ?></p>
