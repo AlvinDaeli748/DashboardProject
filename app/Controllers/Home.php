@@ -28,6 +28,14 @@ class Home extends BaseController
                 $chart = $penjualanModel->select('DATE(tgl_penjualan) as tglPenjualan, total_penjualan')
                                     ->orderBy('tgl_penjualan', 'ASC')
                                     ->findAll();
+                $chartOutlet = $penjualanModel->select('DATE(tgl_penjualan) as tglPenjualan, total_penjualan')
+                                    ->where('jenis', 'Outlet')
+                                    ->orderBy('tgl_penjualan', 'ASC')
+                                    ->findAll();
+                $chartSales = $penjualanModel->select('DATE(tgl_penjualan) as tglPenjualan, total_penjualan')
+                                    ->where('jenis', 'Sales')
+                                    ->orderBy('tgl_penjualan', 'ASC')
+                                    ->findAll();
                 $outletSales = $penjualanModel->select('SUM(total_penjualan) as totalPenjualan')->findAll();
                 $outlet = $penjualanModel->select('SUM(total_penjualan) as totalPenjualan')->where('jenis', 'Outlet')->findAll();
                 $sales = $penjualanModel->select('SUM(total_penjualan) as totalPenjualan')->where('jenis', 'Sales')->findAll();
@@ -47,6 +55,8 @@ class Home extends BaseController
                     ->where('provinsi', $role)
                     ->orderBy('tgl_penjualan', 'ASC')
                     ->findAll();
+                $chartOutlet = [];
+                $chartSales = [];
 
                 $outletSales = $penjualanModel->select('SUM(total_penjualan) as totalPenjualan')->where('provinsi', $role)->findAll();
                 $outlet = $penjualanModel->select('SUM(total_penjualan) as totalPenjualan')->where('jenis', 'Outlet')->where('provinsi', $role)->findAll();
@@ -63,6 +73,12 @@ class Home extends BaseController
             $juneData = [];
             $julyData = [];
 
+            $juneDataOutlet = [];
+            $julyDataOutlet = [];
+
+            $juneDataSales = [];
+            $julyDataSales = [];
+
             foreach ($chart as $row) {
                 $month = date('m', strtotime($row['tglPenjualan']));
     
@@ -70,6 +86,24 @@ class Home extends BaseController
                     $juneData[] = $row;
                 } elseif ($month == '07') {
                     $julyData[] = $row;
+                }
+            }
+            foreach ($chartOutlet as $row) {
+                $month = date('m', strtotime($row['tglPenjualan']));
+    
+                if ($month == '06') {
+                    $juneDataOutlet[] = $row;
+                } elseif ($month == '07') {
+                    $julyDataOutlet[] = $row;
+                }
+            }
+            foreach ($chartSales as $row) {
+                $month = date('m', strtotime($row['tglPenjualan']));
+    
+                if ($month == '06') {
+                    $juneDataSales[] = $row;
+                } elseif ($month == '07') {
+                    $julyDataSales[] = $row;
                 }
             }
 
@@ -87,6 +121,21 @@ class Home extends BaseController
 
             $data['julyDates'] = json_encode(array_column($julyData, 'tglPenjualan'));
             $data['julySales'] = json_encode(array_column($julyData, 'total_penjualan'));
+
+            $finalDates = array_merge($juneData, $julyData);
+            $data['finalDates'] = json_encode((array_column($finalDates, 'tglPenjualan')));
+
+            $data['juneDatesOutlet'] = json_encode(array_column($juneDataOutlet, 'tglPenjualan'));
+            $data['juneSalesOutlet'] = json_encode(array_column($juneDataOutlet, 'total_penjualan'));
+
+            $data['julyDatesOutlet'] = json_encode(array_column($julyDataOutlet, 'tglPenjualan'));
+            $data['julySalesOutlet'] = json_encode(array_column($julyDataOutlet, 'total_penjualan'));
+            
+            $data['juneDatesSales'] = json_encode(array_column($juneDataSales, 'tglPenjualan'));
+            $data['juneSalesSales'] = json_encode(array_column($juneDataSales, 'total_penjualan'));
+
+            $data['julyDatesSales'] = json_encode(array_column($julyDataSales, 'tglPenjualan'));
+            $data['julySalesSales'] = json_encode(array_column($julyDataSales, 'total_penjualan'));
 
             $data['totalMainData'] = $outletSales;
             $data['totalFirstData'] = $outlet;

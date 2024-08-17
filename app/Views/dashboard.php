@@ -56,7 +56,7 @@
 
     <div id="scorecardCollapse" class="row mt-4 collapse show">
         <div class="col-md-4">
-            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-info' : 'bg-primary'; ?>">
+            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-info' : 'bg-primary'; ?>" data-score="Total">
                 <div class="row">
                     <div class="col">
                         <p>Total</p> 
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-warning' : 'bg-success'; ?>">
+            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-warning' : 'bg-success'; ?>" data-score="<?= (current_url() == site_url('dashboard/stocks')) ? 'Kartu' : 'Outlet'; ?>">
             <div class="row">
                     <div class="col">
                         <p><?= (current_url() == site_url('dashboard/stocks')) ? 'Kartu' : 'Outlet'; ?></p>
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-success' : 'bg-warning'; ?>">
+            <div class="scorecard <?= (current_url() == site_url('dashboard/stocks')) ? 'bg-success' : 'bg-warning'; ?>" data-score="<?= (current_url() == site_url('dashboard/stocks')) ? 'Voucher' : 'Sales'; ?>">
             <div class="row">
                     <div class="col">
                         <p><?= (current_url() == site_url('dashboard/stocks')) ? 'Voucher' : 'Sales'; ?></p>
@@ -101,6 +101,22 @@
 
     <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#chartCollapse" aria-expanded="true" aria-controls="chartCollapse">Chart Penjualan <?php echo session()->get('region') ?></h3>
 
+    <?php 
+        $juneDatesArray = json_decode($juneDates, true);
+        $juneSalesArray = json_decode($juneSales, true);
+
+        $juneDataArray = array_combine($juneDatesArray, $juneSalesArray);
+
+        $juneData = json_encode($juneDataArray);
+
+        $julyDatesArray = json_decode($julyDates, true);
+        $julySalesArray = json_decode($julySales, true);
+
+        $julyDataArray = array_combine($julyDatesArray, $julySalesArray);
+
+        $julyData = json_encode($julyDataArray);
+    ?>
+
     <div id="chartCollapse" class="collapse show">
         <canvas id="chartPenjualan"></canvas>
             <script>
@@ -109,11 +125,11 @@
             var chartPenjualan = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: <?= $juneDates; ?>,
+                    labels: <?= $finalDates; ?>,
                     datasets: [
                         {
                             label: 'Penjualan Juni',
-                            data: <?= $juneSales; ?>,
+                            data: <?= $juneData; ?>,
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             fill: false,
@@ -121,11 +137,11 @@
                         },
                         {
                             label: 'Penjualan Juli',
-                            data: <?= $julySales; ?>,
+                            data: <?= $julyData; ?>,
                             borderColor: 'rgba(255, 159, 64, 1)',
                             backgroundColor: 'rgba(255, 159, 64, 0.2)',
                             fill: false,
-                            hidden: true
+                            hidden: false
                         }
                     ]
                 },
@@ -134,7 +150,8 @@
                         x: {
                             type: 'time',
                             time: {
-                                unit: 'day'
+                                unit: 'day',
+                                tooltipFormat: 'YYYY-MM-DD',
                             },
                             title: {
                                 display: true,
@@ -149,6 +166,29 @@
                         }
                     }
                 }
+            });
+
+            function updateChartData(score) {
+                let newData;
+                // if (score === 'Total') {
+                //     newData = juneData;
+                // } else if (score === 'july') {
+                //     newData = julyData;
+                // } else if (score === 'august') {
+                //     newData = augustData;
+                // }
+
+                // salesChart.data.datasets[0].data = newData;
+                // salesChart.update();
+                console.log(score);
+            }
+
+            console.log($juneDates);
+            document.querySelectorAll('.scorecard').forEach(card => {
+                card.addEventListener('click', function() {
+                    const score = this.getAttribute('data-score');
+                    updateChartData(score);
+                });
             });
 
         </script>
