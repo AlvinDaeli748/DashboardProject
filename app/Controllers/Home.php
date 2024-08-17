@@ -234,6 +234,9 @@ class Home extends BaseController
             $data['julyDates'] = json_encode(array_column($julyData, 'tglPenjualan'));
             $data['julySales'] = json_encode(array_column($julyData, 'total_penjualan'));
 
+            $finalDates = array_merge($juneData, $julyData);
+            $data['finalDates'] = json_encode((array_column($finalDates, 'tglPenjualan')));
+
             $data['totalMainData'] = $kartuVoucher;
             $data['totalFirstData'] = $kartu;
             $data['totalSecondData'] = $voucher;
