@@ -13,7 +13,7 @@
         * `database.default.DBDriver = MySQLi`
    * Contoh tampilan .env :
    * ![tampilan_env](https://github.com/user-attachments/assets/327641c6-c3bc-4d3e-8da7-b0a46692ef7e)
-5. Pastikan ekstensi berikut aktif pada `php.ini` dengan cara uncomment ekstensi berikut. Jalankan `php --ini` untuk mengecek lokasi file `php.ini` yang digunakan.
+5. Pastikan ekstensi berikut aktif pada `php.ini` dengan cara uncomment ekstensi berikut:
     * intl
     * mbstring
     * mysqli
@@ -24,11 +24,12 @@
     * json
     * mysqlnd
     * extension_dir="ext"
-        * Jalankan `php -m` untuk memastikan ekstensi aktif
+        * Jalankan `php --ini` untuk mengecek lokasi file `php.ini` yang digunakan.
+        * Jalankan `php -m` untuk memeriksa ekstensi aktif.
 6. Tambah Database di Phpmyadmin dengan nama database `dbproject`
     * Database berupa MySQL, dapat menggunakan XAMPP untuk akses ke `localhost/phpmyadmin`
 7. Export database dan seed data : `php spark migrate -all`
-    * Apabila ingin menambah data, jalankan `php spark db:seed PenjualanSeeder` untuk menambah dummy data sebanyak 500 data.
+    * Apabila ingin menambah data, jalankan `php spark db:seed DataSeeder` untuk menambah dummy data sebanyak 500 data.
 8. Start Website : `php spark serve`
     * Website dapat diakses dengan link `http://localhost:8080`
 9. Data untuk Login terdapat pada `Akun_Admin.txt`
