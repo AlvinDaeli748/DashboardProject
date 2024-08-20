@@ -101,22 +101,6 @@
 
     <h3 class="mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#chartCollapse" aria-expanded="true" aria-controls="chartCollapse">Chart Penjualan <?php echo session()->get('region') ?></h3>
 
-    <?php 
-        $juneDatesArray = json_decode($juneDates, true);
-        $juneSalesArray = json_decode($juneSales, true);
-
-        $juneDataArray = array_combine($juneDatesArray, $juneSalesArray);
-
-        $juneData = json_encode($juneDataArray);
-
-        $julyDatesArray = json_decode($julyDates, true);
-        $julySalesArray = json_decode($julySales, true);
-
-        $julyDataArray = array_combine($julyDatesArray, $julySalesArray);
-
-        $julyData = json_encode($julyDataArray);
-    ?>
-
     <div id="chartCollapse" class="collapse show">
         <canvas id="chartPenjualan"></canvas>
             <script>
@@ -129,7 +113,7 @@
                     datasets: [
                         {
                             label: 'Penjualan Juni',
-                            data: <?= $juneData; ?>,
+                            data: <?= $finalDataJune ?>,
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             fill: false,
@@ -137,7 +121,7 @@
                         },
                         {
                             label: 'Penjualan Juli',
-                            data: <?= $julyData; ?>,
+                            data: <?= $finalDataJuly; ?>,
                             borderColor: 'rgba(255, 159, 64, 1)',
                             backgroundColor: 'rgba(255, 159, 64, 0.2)',
                             fill: false,
@@ -168,26 +152,71 @@
                 }
             });
 
-            function updateChartData(score) {
-                let newData;
-                // if (score === 'Total') {
-                //     newData = juneData;
-                // } else if (score === 'july') {
-                //     newData = julyData;
-                // } else if (score === 'august') {
-                //     newData = augustData;
-                // }
+            function updateChartData(score, chartPenjualan) {
+                let newData1, newData2, newDate;
 
-                // salesChart.data.datasets[0].data = newData;
-                // salesChart.update();
-                console.log(score);
+                switch (score){
+                    case 'Total':
+                    default:
+                        newDate = <?= $finalDates ?>;
+                        newData1 = <?= $finalDataJune ?>;
+                        newData2 = <?= $finalDataJuly ?>;
+                        break;
+                    case 'Outlet':
+                    case 'Kartu':
+                        newDate = <?= $finalDatesFirstType ?>;
+                        newData1 = <?= $finalDataJuneFirstType ?>;
+                        newData2 = <?= $finalDataJulyFirstType ?>;
+                        break;
+                    case 'Sales':
+                    case 'Voucher':
+                        newDate = <?= $finalDatesSecondType ?>;
+                        newData1 = <?= $finalDataJuneSecondType ?>;
+                        newData2 = <?= $finalDataJulySecondType ?>;
+                        break;
+                }
+                
+                chartPenjualan.data.datasets[0].data = newData1;
+                chartPenjualan.data.datasets[1].data = newData2;
+                chartPenjualan.data.labels = newDate;
+                chartPenjualan.update();
             }
 
-            console.log($juneDates);
             document.querySelectorAll('.scorecard').forEach(card => {
                 card.addEventListener('click', function() {
                     const score = this.getAttribute('data-score');
-                    updateChartData(score);
+                    if (score === 'Total') {
+                        var currentUrl = new URL(window.location.href);
+                        var paramName = 'score';
+                        var paramValue = 'Total';
+                        currentUrl.searchParams.set(paramName, paramValue);
+                        window.history.pushState({}, '', currentUrl);
+                    } else if (score === 'Outlet') {
+                        var currentUrl = new URL(window.location.href);
+                        var paramName = 'score';
+                        var paramValue = 'Outlet';
+                        currentUrl.searchParams.set(paramName, paramValue);
+                        window.history.pushState({}, '', currentUrl);
+                    } else if (score === 'Sales') {
+                        var currentUrl = new URL(window.location.href);
+                        var paramName = 'score';
+                        var paramValue = 'Sales';
+                        currentUrl.searchParams.set(paramName, paramValue);
+                        window.history.pushState({}, '', currentUrl);
+                    } else if (score === 'Kartu') {
+                        var currentUrl = new URL(window.location.href);
+                        var paramName = 'score';
+                        var paramValue = 'Kartu';
+                        currentUrl.searchParams.set(paramName, paramValue);
+                        window.history.pushState({}, '', currentUrl);
+                    } else if (score === 'Voucher') {
+                        var currentUrl = new URL(window.location.href);
+                        var paramName = 'score';
+                        var paramValue = 'Voucher';
+                        currentUrl.searchParams.set(paramName, paramValue);
+                        window.history.pushState({}, '', currentUrl);
+                    }
+                    updateChartData(score, chartPenjualan);
                 });
             });
 
